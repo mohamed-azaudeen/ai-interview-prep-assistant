@@ -1,0 +1,12 @@
+﻿1. Explain the difference between supervised and unsupervised learning.
+2. What is feature engineering and why is it important?
+3. How does a Random Forest work?
+4. Explain overfitting and underfitting.
+5. What evaluation metrics would you use for imbalanced datasets?
+6. Explain the concept of embeddings in NLP.
+7. What is a vector database and why is it used in RAG systems?
+8. Explain Retrieval-Augmented Generation (RAG).
+9. How does FAISS improve semantic search performance?
+10. What are hallucinations in LLMs and how does RAG reduce them?
+11. Difference between LangChain and LlamaIndex.
+12. How would you deploy an ML model to production?

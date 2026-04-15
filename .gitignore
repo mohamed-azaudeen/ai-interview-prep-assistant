@@ -1,0 +1,34 @@
+
+# --- Environment & Secrets ---
+# Ignore the actual virtual environment folder
+venv/
+.venv/
+env/
+
+# Ignore your secret API keys (Critical for security!)
+.env
+
+# --- Project Specific (RAG) ---
+# Ignore the local vector store (Hugging Face/Render will rebuild this)
+faiss_index/
+# Ignore all PDFs and data blobs
+*.pdf
+*.docx
+data/
+resume/
+
+# --- Python & Cache ---
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.ipynb_checkpoints/
+
+# --- Streamlit & UI ---
+.streamlit/
+static/js/
+
+# --- Operating System ---
+.DS_Store
+Thumbs.db

@@ -1,0 +1,16 @@
+fastapi
+uvicorn
+pydantic
+python-multipart
+langchain
+langchain-community
+langchain-ollama
+langchain-google-genai>=2.0.0
+google-genai>=1.0.0
+faiss-cpu
+PyPDF2
+requests
+streamlit
+python-dotenv
+sentence-transformers
+langchain-huggingface
