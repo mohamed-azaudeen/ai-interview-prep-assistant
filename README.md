@@ -1,3 +1,13 @@
+---
+title: AI Resume Intelligence
+emoji: 🤖
+colorFrom: blue
+colorTo: indigo
+sdk: docker
+app_port: 8501
+pinned: false
+---
+
 # 🤖 AI Resume & JD Assistant (RAG-Based)
 
 An end-to-end **Retrieval-Augmented Generation (RAG)** system that:
