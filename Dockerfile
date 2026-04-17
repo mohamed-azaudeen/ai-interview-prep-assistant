@@ -2,13 +2,18 @@ FROM python:3.10-slim
 
 WORKDIR /app
 
-COPY requirments.txt .
-RUN pip install --no-cache-dir -r requirments.txt
 
-COPY . .
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    libssl-dev \
+    && rm -rf /var/lib/apt/lists/*
 
-EXPOSE 8501
+
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
 
 ENV PYTHONPATH=/app
+
+EXPOSE 8501
 
 CMD ["streamlit", "run", "rag_resume_ai/ui/streamlit_app.py", "--server.port=8501", "--server.address=0.0.0.0"]

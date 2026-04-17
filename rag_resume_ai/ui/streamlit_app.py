@@ -1,9 +1,7 @@
 import streamlit as st
-import requests
 from PyPDF2 import PdfReader
-import os
-from dotenv import load_dotenv
-load_dotenv()  
+from rag_resume_ai.api.logic import ask_resume_logic, match_resume_jd_logic, generate_interview_questions_logic
+
 
 def extract_text_from_pdf(uploaded_file):
     reader = PdfReader(uploaded_file)
@@ -12,10 +10,6 @@ def extract_text_from_pdf(uploaded_file):
         if page.extract_text():
             text += page.extract_text()
     return text
-
-
-API_BASE = os.getenv("API_URL", "http://127.0.0.1:8000")
-
 
 st.set_page_config(
     page_title="AI Resume Intelligence",
@@ -44,108 +38,27 @@ tab1, tab2, tab3 = st.tabs(
     ["📊 ATS Match", "🎤 Interview Prep", "💬 Ask Resume"]
 )
 
-
 with tab1:
-    st.subheader("📊 Resume vs Job Description Match")
-
-    if st.button("🔍 Analyze Resume Match", use_container_width=True):
-        if not uploaded_resume or not jd_text:
-            st.warning("Please upload a resume and paste a Job Description.")
-        else:
+    if st.button("🔍 Analyze Resume Match"):
+        if uploaded_resume and jd_text:
             resume_text = extract_text_from_pdf(uploaded_resume)
-
-            with st.spinner("Running ATS analysis..."):
-                response = requests.post(
-                    f"{API_BASE}/match_resume_jd",
-                    json={
-                        "resume_text": resume_text,
-                        "jd_text": jd_text
-                    }
-                )
-
-            if response.status_code == 200:
-                data = response.json()
-
-                col1, col2, col3 = st.columns(3)
-                with col1:
-                    st.markdown(f"### 🎯 Match Score: '{data['match_score']}%'")
-                with col2:
-                    st.markdown(f"### ✅ Matched Skills: '{len(data['matched_skills'])}'")
-                with col3:
-                    st.markdown(f"### ❌ Missing Skills: '{len(data['missing_skills'])}'")
-
-                st.divider()
-
+            with st.spinner("Analyzing..."):
+                # Calling logic directly
+                data = match_resume_jd_logic(resume_text, jd_text)
+                st.metric("🎯 Match Score", f"{data['match_score']}%")
                 st.subheader("✅ Matched Skills")
-                for skill in data["matched_skills"]:
-                    st.success(f"**{skill}**")
-
-                st.subheader("❌ Missing Skills")
-                for skill in data["missing_skills"]:
-                    st.error(f"**{skill}**")
-
-                st.subheader("📝 ATS Summary")
+                st.write(data["matched_skills"])
                 st.info(data["summary"])
 
-            else:
-                st.error("Failed to analyze resume. Is FastAPI running?")
-
-
 with tab2:
-    st.subheader("🎤 Interview Preparation")
-
-    question_type = st.selectbox(
-        "Choose Interview Focus Area",
-        [
-            "Resume-based",
-            "JD-based",
-            "Skill-gap focused",
-            "GenAI / ML concepts",
-            "Behavioral (HR)"
-        ]
-    )
-
-    if st.button("🧠 Generate Interview Questions", use_container_width=True):
-        if not uploaded_resume or not jd_text:
-            st.warning("Please upload a resume and paste a Job Description.")
-        else:
-            resume_text = extract_text_from_pdf(uploaded_resume)
-
-            with st.spinner("Preparing personalized interview questions..."):
-                response = requests.post(
-                    f"{API_BASE}/interview_questions",
-                    json={
-                        "resume_text": resume_text,
-                        "jd_text": jd_text,
-                        "question_type": question_type
-                    }
-                )
-
-            if response.status_code == 200:
-                st.subheader("📋 Likely Interview Questions")
-                st.write(response.json()["questions"])
-            else:
-                st.error("Could not generate interview questions.")
-
+    q_type = st.selectbox("Focus Area", ["Resume-based", "Skill-gap focused"])
+    if st.button("🧠 Generate Questions"):
+        resume_text = extract_text_from_pdf(uploaded_resume)
+        questions = generate_interview_questions_logic(resume_text, jd_text, q_type)
+        st.write(questions)
 
 with tab3:
-    st.subheader("💬 Ask Questions About Your Resume")
-
-    user_query = st.text_input(
-        "Ask anything (skills, experience, gaps, improvements)"
-    )
-
-    if st.button("Ask AI", use_container_width=True):
-        if not user_query:
-            st.warning("Please enter a question.")
-        else:
-            with st.spinner("Thinking..."):
-                response = requests.post(
-                    f"{API_BASE}/ask",
-                    json={"question": user_query}
-                )
-
-            if response.status_code == 200:
-                st.success(response.json()["answer"])
-            else:
-                st.error("Failed to get response from AI.")
+    query = st.text_input("Ask AI about resume")
+    if st.button("Ask"):
+        answer = ask_resume_logic(query)
+        st.success(answer)
