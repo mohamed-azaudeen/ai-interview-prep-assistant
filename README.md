@@ -8,98 +8,83 @@ app_port: 8501
 pinned: false
 ---
 
-# 🤖 AI Resume & JD Assistant (RAG-Based)
+# 🤖 AI Resume Intelligence Platform (MLOps & RAG)
 
-An end-to-end **Retrieval-Augmented Generation (RAG)** system that:
-- Matches resumes with job descriptions (ATS-style scoring)
-- Identifies skill gaps
-- Generates interview questions
-- Provides resume-aware Q&A
-- Works fully offline using FAISS + LLaMA
+[![GitHub License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![Docker Support](https://img.shields.io/badge/Docker-Supported-blue.svg?logo=docker)](Dockerfile)
+[![Hugging Face Space](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Spaces-yellow)](https://huggingface.co/spaces/Azar-Mhmd/ai-resume-intelligence)
 
----
+An end-to-end **Generative AI & MLOps** project featuring a RAG (Retrieval-Augmented Generation) system. This platform automates ATS scoring, skill-gap analysis, and personalized interview preparation using open-source LLMs.
 
-## 🚀 Features
+## 🚀 Key Features
 
-✅ Resume ↔ Job Description matching with score (%)  
-✅ Matched & missing skills extraction  
-✅ Resume-based question answering  
-✅ Interview question generator (JD + Resume aware)  
-✅ FastAPI backend + Streamlit frontend  
-✅ Offline RAG (FAISS vector store)
+- **🎯 ATS Matcher:** Advanced semantic comparison between Resume (PDF) and Job Descriptions.
+- **🔍 Skill Analytics:** Automated extraction of matched and missing technical skills.
+- **🎤 Interview Coach:** Generates contextual interview questions based on specific job-role requirements and candidate experience.
+- **💬 Resume Chat:** Interactive Q&A interface to query specific details within uploaded documents.
+- **🛡️ Production Ready:** Full Dockerization and automated CI/CD deployment pipeline.
 
 ---
 
-## 🧠 System Architecture
+## 🧠 System Architecture & MLOps Pipeline
 
-Resume / JD (PDF/Text)
-↓
-Text Chunking
-↓
-Embedding (Sentence Transformers)
-↓
-FAISS Vector Store
-↓
-Retriever
-↓
-LLM (LLaMA)
-↓
-FastAPI (REST API)
-↓
-Streamlit UI
+### Data Flow
+1. **Ingestion:** PDF text extraction using `PyPDF2`.
+2. **Indexing:** Embedding generation via `Sentence Transformers`.
+3. **Storage:** High-performance vector retrieval using `FAISS`.
+4. **Orchestration:** `LangChain` coordinating the RAG logic.
+5. **Inference:** `Google Gemini / LLaMA` processing queries via shared logic.
 
+### Deployment Workflow
+`Local Git Push` ➔ `GitHub Actions` ➔ `Docker Build` ➔ `Hugging Face Spaces`
 
 ---
 
 ## 🛠️ Tech Stack
 
-- **Python**
-- **LangChain**
-- **FAISS**
-- **FastAPI**
-- **Streamlit**
-- **Sentence Transformers**
-- **LLaMA / Open-source LLM**
+| Category | Tools |
+| :--- | :--- |
+| **LLM / RAG** | LangChain, Google Gemini API, LLaMA |
+| **Vector DB** | FAISS (Facebook AI Similarity Search) |
+| **Frontend** | Streamlit |
+| **Backend** | FastAPI |
+| **DevOps** | Docker, GitHub Actions (CI/CD) |
+| **Libraries** | PyPDF2, Pandas, Sentence-Transformers |
 
 ---
 
 ## 📂 Project Structure
 
+```text
 rag_resume_ai/
-├── app/ # Core RAG logic
-├── api/ # FastAPI backend
-├── ui/ # Streamlit frontend
-├── data/ # Sample resumes & JDs
-
-
----
+├── app/               # Core RAG logic, embeddings & qa_chains
+├── api/               # FastAPI implementation & shared logic
+├── ui/                # Streamlit UI components
+├── faiss_index/       # Pre-built vector database
+├── .github/workflows/ # CI/CD automation (ci.yml)
+├── Dockerfile         # Container configuration
+└── requirements.txt   # Production dependencies
 
 ## ⚙️ Installation & Setup
-
-### 1️⃣ Clone Repository
-```bash
-git clone https://github.com/your-username/rag-resume-ai.git
+**1️⃣ Clone and Environment**
+git clone [https://github.com/your-username/rag-resume-ai.git](https://github.com/your-username/rag-resume-ai.git)
 cd rag-resume-ai
-
-2️⃣ Create Virtual Environment
 python -m venv venv
-venv\Scripts\activate   
-
-3️⃣ Install Dependencies
+venv\Scripts\activate on Windows
 pip install -r requirements.txt
 
-▶️ Running the Application
-
-🔹 Start FastAPI Backend
-uvicorn rag_resume_ai.api.main:app --reload
-
-Visit:
-API Docs → http://127.0.0.1:8000/docs
-
-🔹 Start Streamlit UI
+**2️⃣ Running Locally**
+**Mode A: Monolithic (Streamlit only)**
 streamlit run rag_resume_ai/ui/streamlit_app.py
 
-Visit:
-UI → http://localhost:8501"# ai-interview-prep-assistant" 
+**Mode B: Microservices (FastAPI + Streamlit)**
+# Terminal 1
+uvicorn rag_resume_ai.api.main:app --reload
+# Terminal 2
+streamlit run rag_resume_ai/ui/streamlit_app.py
 
+**🐳 Docker Deployment**
+docker build -t resume-ai .
+docker run -p 8501:8501 resume-ai
 
+Recommended for local testing of the full RAG pipeline:
