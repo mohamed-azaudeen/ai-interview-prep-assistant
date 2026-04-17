@@ -22,7 +22,7 @@ jobs:
 
       - name: Build UI Image
         run: |
-          docker build -t rag-ui:test -f Dockerfile.streamlit .
+          docker build -t rag-ui:test -f Dockerfile .
 
       - name: Push to Hugging Face
         env:
