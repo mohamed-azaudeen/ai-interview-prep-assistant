@@ -16,7 +16,7 @@ faiss_index/
 *.docx
 data/
 resume/
-
+notes/
 # --- Python & Cache ---
 __pycache__/
 *.pyc

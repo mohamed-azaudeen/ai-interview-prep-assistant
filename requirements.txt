@@ -16,5 +16,7 @@ python-dotenv
 sentence-transformers
 transformers
 langchain-huggingface
+google-api-core
 torch
-
+torchvision
+os

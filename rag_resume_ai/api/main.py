@@ -4,8 +4,7 @@ from rag_resume_ai.api.logic import ask_resume_logic, match_resume_jd_logic, gen
 
 app = FastAPI(
     title="GenAI Resume RAG API",
-    description="Offline RAG system using LLaMA + FAISS",
-    version="1.0.0"
+    description="Offline RAG system using LLaMA + FAISS"
 )
 
 
