@@ -1,5 +1,5 @@
 import streamlit as st
-from PyPDF2 import PdfReader
+from pypdf import PdfReader
 from rag_resume_ai.api.logic import ask_resume_logic, match_resume_jd_logic, generate_interview_questions_logic
 import time
 import google.api_core.exceptions
