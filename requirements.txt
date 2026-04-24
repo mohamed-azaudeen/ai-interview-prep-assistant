@@ -17,6 +17,6 @@ sentence-transformers
 transformers
 langchain-huggingface
 google-api-core
-torch
-torchvision
+torch==2.2.1
+torchvision==0.17.1
 os
