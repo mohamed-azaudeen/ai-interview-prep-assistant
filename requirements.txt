@@ -4,12 +4,10 @@ pydantic
 python-multipart
 langchain
 langchain-community
-langchain-ollama
 langchain-google-genai>=2.0.0
 google-genai>=1.0.0
 faiss-cpu
 pypdf
-PyPDF2
 requests
 streamlit
 python-dotenv
@@ -19,4 +17,3 @@ langchain-huggingface
 google-api-core
 torch==2.2.1
 torchvision==0.17.1
-os
