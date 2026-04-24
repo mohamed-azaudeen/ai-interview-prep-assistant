@@ -125,7 +125,6 @@ An end-to-end **Generative AI & MLOps** project featuring a RAG (Retrieval-Augme
 
 ## 📂 Project Structure
 
-```text
 rag_resume_ai/
 ├── app/               # Core RAG logic, embeddings & qa_chains
 ├── api/               # shared logic & FastAPI implementation
